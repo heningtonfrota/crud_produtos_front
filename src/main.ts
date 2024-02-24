@@ -1,11 +1,8 @@
 import { createApp } from 'vue';
-import './style.css';
 import App from './App.vue';
-import UserGatewayHttp from './infra/gateway/UserGatewayHttp';
+import router from './router';
 
-const userGateway = new UserGatewayHttp;
-userGateway.login('heningtonfrota@example.com', 'password')
-  .then(response => console.log(response))
-  .catch(error => console.log(error));
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
 
-createApp(App).mount('#app');
