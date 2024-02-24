@@ -1,7 +1,7 @@
-import AuthTemplate from "../layouts/AuthTemplate.vue";
-import DefaultTemplate from "../layouts/DefaultTemplate.vue";
-import HomeAdmin from "../pages/admin/HomeAdmin.vue";
-import AuthPage from "../pages/auth/AuthPage.vue";
+import AuthTemplate from "@/layouts/AuthTemplate.vue";
+import DefaultTemplate from "@/layouts/DefaultTemplate.vue";
+import HomeAdmin from "@/pages/admin/HomeAdmin.vue";
+import AuthPage from "@/pages/auth/AuthPage.vue";
 
 export default [
     {
@@ -9,7 +9,7 @@ export default [
         component: AuthTemplate,
         children: [
             {
-                path: 'auth',
+                path: '',
                 component: AuthPage,
                 name: 'auth'
             }
@@ -20,9 +20,9 @@ export default [
         component: DefaultTemplate,
         children: [
             {
-                name: 'home',
+                path: '',
                 component: HomeAdmin,
-                path: ''
+                name: 'admin.home',
             }
         ]
     }
