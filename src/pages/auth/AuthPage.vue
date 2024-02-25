@@ -38,7 +38,7 @@
 
     useStore.auth(email.value, password.value)
       .then(() => router.push({ name: 'admin.home' }))
-      .catch(responseError => {
+      .catch(responseError => {        
         error.message = 'Falha na Autenticação';
         error.status = responseError.response.status;
         error.active = true;

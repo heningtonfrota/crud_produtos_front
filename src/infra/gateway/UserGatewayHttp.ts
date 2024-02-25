@@ -1,3 +1,4 @@
+import Permission from "@/entities/Permission";
 import User from "@/entities/User";
 import httpAdapter from "@/infra/http/HttpClientAdapter";
 import { NAME_TOKEN } from "@/utils/constants";
@@ -14,16 +15,33 @@ export default class UserGatewayHttp {
     })
     .then(response => {
       localStorage.setItem(NAME_TOKEN, response.data.token);
+
+      this.getMe();
+
       return Promise.resolve(response);
     });
   }
 
   async getMe(): Promise<User> {
+    const response = await httpAdapter
+      .withAuthorization()
+      .get('/me')
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(NAME_TOKEN);
+        }
+      });
 
-    const response = await httpAdapter.withAuthorization().get('/me');
+    const { id, name, email, permissions } = response.data.data;
 
-    const { id, name, email } = response.data.data;
+    const permissionsUser:Permission[] = permissions.map((permission: any) => {
+      const { id, name, description } = permission;
+      return new Permission(id, name, description);
+    });
 
-    return new User(id, name, email);
+    const user = new User(id, name, email);
+    user.syncPermissions(permissionsUser);
+
+    return user;
   }
 }

@@ -1,7 +1,8 @@
 import AuthTemplate from "@/layouts/AuthTemplate.vue";
 import DefaultTemplate from "@/layouts/DefaultTemplate.vue";
-import HomeAdmin from "@/pages/admin/HomeAdmin.vue";
 import AuthPage from "@/pages/auth/AuthPage.vue";
+import HomeAdmin from "@/pages/admin/HomeAdmin.vue";
+import ListUsers from "@/pages/admin/users/ListUsers.vue";
 
 export default [
     {
@@ -9,7 +10,7 @@ export default [
         component: AuthTemplate,
         children: [
             {
-                path: '',
+                path: '/',
                 component: AuthPage,
                 name: 'auth'
             }
@@ -20,10 +21,15 @@ export default [
         component: DefaultTemplate,
         children: [
             {
+                path: 'users',
+                component: ListUsers,
+                name: 'admin.users',
+            },
+            {
                 path: '',
                 component: HomeAdmin,
                 name: 'admin.home',
-            }
+            },
         ]
     }
 ];
