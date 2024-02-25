@@ -10,7 +10,7 @@ const router = createRouter({
 router.beforeEach((to: RouteLocationNormalized, _: RouteLocationNormalized) => {  
   const routeName = to.name;
   
-  if (isToken() && routeName === 'auth') return { name: 'admin.home' }
+  if (isToken() && routeName === 'auth') return { name: 'admin.product' }
   else if (!isToken() && routeName !== 'auth') return { name: 'auth' };
 });
 

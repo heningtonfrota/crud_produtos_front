@@ -1,35 +1,36 @@
 import AuthTemplate from "@/layouts/AuthTemplate.vue";
 import DefaultTemplate from "@/layouts/DefaultTemplate.vue";
+
 import AuthPage from "@/pages/auth/AuthPage.vue";
-import HomeAdmin from "@/pages/admin/HomeAdmin.vue";
-import ListUsers from "@/pages/admin/users/ListUsers.vue";
+import ProductsPage from "@/pages/admin/product/ProductsPage.vue";
+import UsersPage from "@/pages/admin/users/UsersPage.vue";
 
 export default [
-    {
+  {
+    path: '/',
+    component: AuthTemplate,
+    children: [
+      {
         path: '/',
-        component: AuthTemplate,
-        children: [
-            {
-                path: '/',
-                component: AuthPage,
-                name: 'auth'
-            }
-        ]
-    },
-    {
-        path: '/admin',
-        component: DefaultTemplate,
-        children: [
-            {
-                path: 'users',
-                component: ListUsers,
-                name: 'admin.users',
-            },
-            {
-                path: '',
-                component: HomeAdmin,
-                name: 'admin.home',
-            },
-        ]
-    }
+        component: AuthPage,
+        name: 'auth'
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    component: DefaultTemplate,
+    children: [
+      {
+        path: 'users',
+        component: UsersPage,
+        name: 'admin.users',
+      },
+      {
+        path: 'products',
+        component: ProductsPage,
+        name: 'admin.product',
+      },
+    ]
+  }
 ];

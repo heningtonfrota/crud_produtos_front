@@ -44,4 +44,54 @@ export default class UserGatewayHttp {
 
     return user;
   }
+
+  async getUsers(): Promise<any> {
+    const response = await httpAdapter
+      .withAuthorization()
+      .get('/users')
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(NAME_TOKEN);
+        }
+      });
+
+    return response;    
+  }
+
+  async storeUser(params: object): Promise<any> {
+    const response = await httpAdapter
+      .withAuthorization()
+      .post('/users', params)
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(NAME_TOKEN);
+        }
+      });
+
+    return response;    
+  }
+
+  async updateUser(user: any): Promise<void> {
+    console.log('qewqeqweqw', user.value);
+    
+    await httpAdapter
+      .withAuthorization()
+      .put(`/users/${user.value.id}`, user.value)
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(NAME_TOKEN);
+        }
+      });
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await httpAdapter
+      .withAuthorization()
+      .delete(`/users/${id}`)
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(NAME_TOKEN);
+        }
+      });
+  }
 }

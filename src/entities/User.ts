@@ -7,6 +7,7 @@ export default class User {
         readonly id: string,
         readonly name: string,
         readonly email: string,
+        readonly index?: number,
         readonly password?: string,
     ) { }
 
