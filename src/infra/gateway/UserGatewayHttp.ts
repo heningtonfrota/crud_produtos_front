@@ -71,9 +71,7 @@ export default class UserGatewayHttp {
     return response;    
   }
 
-  async updateUser(user: any): Promise<void> {
-    console.log('qewqeqweqw', user.value);
-    
+  async updateUser(user: any): Promise<void> {    
     await httpAdapter
       .withAuthorization()
       .put(`/users/${user.value.id}`, user.value)
