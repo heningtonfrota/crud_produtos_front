@@ -40,6 +40,7 @@ import { required, helpers } from '@vuelidate/validators';
 import { useProductsStore } from '@/store/products.ts';
 import Product from '@/entities/Product';
 import SelectCategoriesComponent from '@/components/SelectCategoriesComponent.vue';
+import Category from '@/entities/Category';
 
 const props = defineProps({
   product: {
@@ -50,7 +51,7 @@ const props = defineProps({
 
 const dialog = ref(false);
 const store = useProductsStore();
-let form = ref({} as Product);
+let form = ref(new Product('', '', 0, '', null, new Category(''), ''));
 const rules = {
   form: {
     name: {
@@ -62,9 +63,11 @@ const rules = {
 watch(
   props,
   () => {
-    if (props.product?.id) dialog.value = true;
-    form.value = props.product;
-    form.value.category_id = props.product.category.id;
+    if (props.product?.id) {      
+      dialog.value = true;
+      form.value = props.product;
+      form.value.category_id = props.product?.category?.id;
+    }
   }
 );
 
@@ -73,21 +76,19 @@ const TITLE_COMPUTED = computed(() => props.product ?? { id: '' });
 function fecharDialog() {
   dialog.value = false;
   resetForm();
-  emitirEventoDeResetUser();
+  emitirEventoDeResetProduct();
 }
 
 const v$ = useVuelidate(rules, { form });
 
 function resetForm() {
-  form.value = new Product('','', 0, '');
+  form.value = new Product('', '', 0, '', null, new Category(''), '');
   v$.value.$reset();
 }
 
-const emits = defineEmits(['atualizar-tela-inicial', 'reset-user']);
-const emitirEventoDeResetUser = () => emits('reset-user');
-const emitirEventoDeAtualizarTela = () => {
-  emits('atualizar-tela-inicial');
-};
+const emits = defineEmits(['atualizar-tela-inicial', 'reset-product']);
+const emitirEventoDeResetProduct = () => emits('reset-product');
+const emitirEventoDeAtualizarTela = () => emits('atualizar-tela-inicial');
 
 function salvar() {
   v$.value.form.$touch();

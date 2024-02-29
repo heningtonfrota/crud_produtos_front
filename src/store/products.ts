@@ -13,8 +13,8 @@ export const useProductsStore = defineStore('products', {
   },
   actions: {
     async getProducts(): Promise<any> {
-      const response = await userGateway.getProducts();
-      const products: Product[] = response.data.data;      
+      const responseProducts = await userGateway.getProducts();
+      const products: Product[] = responseProducts;
       this.products = products;
     },
     async store(params: object): Promise<any> {

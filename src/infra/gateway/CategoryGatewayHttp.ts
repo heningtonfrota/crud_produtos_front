@@ -13,7 +13,7 @@ export default class CategoryGatewayHttp {
         }
       });
 
-    return response;    
+    return response.data.data;    
   }
 
   async storeCategory(params: object): Promise<void> {

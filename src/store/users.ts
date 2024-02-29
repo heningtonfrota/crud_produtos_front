@@ -20,8 +20,8 @@ export const useUsersStore = defineStore('users', {
       this.me = await userGateway.getMe();
     },
     async getUsers(): Promise<any> {
-      const response = await userGateway.getUsers();
-      const users: User[] = response.data.data.map((map: User, i: number) => {
+      const responseUsers = await userGateway.getUsers();
+      const users: User[] = responseUsers.map((map: User, i: number) => {
         const { id, name, email } = map;
         const user: User = new User(id, name, email, i);
         return user;        

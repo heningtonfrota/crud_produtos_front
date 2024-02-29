@@ -13,13 +13,19 @@ export default class ProductGatewayHttp {
         }
       });
 
-    return response;    
+    return response.data.data;    
   }
 
   async storeProduct(params: object): Promise<void> {
+    const config = { 
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+
     await httpAdapter
       .withAuthorization()
-      .post('/products', params)
+      .post('/products', params, config)
       .catch(error => {
         if (error.response.status === 401) {
           localStorage.removeItem(NAME_TOKEN);

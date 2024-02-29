@@ -27,12 +27,22 @@
     </template>
     
     <template #item.actions="{ item }">
+      <v-icon class="mx-1" @click="viewItem(item)">mdi-eye</v-icon>
       <v-icon class="mx-1" @click="editItem(item)">mdi-pencil</v-icon>
       <v-icon class="mx-1" @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
 
-  <UpdateProductPage :product="productUpdate" @atualizar-tela-inicial="carregarDados()" @reset-product="productUpdate = {}"/>
+  <UpdateProductPage 
+    :product="productUpdate" 
+    @atualizar-tela-inicial="carregarDados()" 
+    @reset-product="productUpdate = new Product('', '', 0, '', null, new Category(''), '')"
+  />
+
+  <ViewProductPage 
+    :product="productView"
+    @reset-product-view="productView = new Product('', '', 0, '', null, new Category(''), '')"
+  />
 </template>
 
 <script setup lang="ts">
@@ -42,8 +52,11 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import NewProductPage from './NewProductPage.vue';
 import UpdateProductPage from './UpdateProductPage.vue';
+import ViewProductPage from './ViewProductPage.vue';
+import Category from '@/entities/Category';
 
-const productUpdate = ref({} as Product);
+const productView = ref(new Product('', '', 0, '', null, new Category(''), ''));
+const productUpdate = ref(new Product('', '', 0, '', null, new Category(''), ''));
 const store = useProductsStore();
 const loading = ref(false);
 const items = ref([]);
@@ -69,6 +82,10 @@ function carregarDados() {
     items.value = store.products as never[];
     loading.value = false;
   }, 1000);
+}
+
+function viewItem (item: Product) {
+  productView.value = item;
 }
 
 function editItem (item: Product) {

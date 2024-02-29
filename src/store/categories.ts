@@ -13,8 +13,8 @@ export const useCategoriesStore = defineStore('categories', {
   },
   actions: {
     async getCategories(): Promise<any> {
-      const response = await userGateway.getCategories();
-      const categories: Category[] = response.data.data as Category[];      
+      const responseCategories = await userGateway.getCategories();
+      const categories: Category[] = responseCategories;                   
       this.categories = categories;
     },
     async store(params: object): Promise<any> {

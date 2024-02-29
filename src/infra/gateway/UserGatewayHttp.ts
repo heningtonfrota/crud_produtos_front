@@ -45,7 +45,7 @@ export default class UserGatewayHttp {
     return user;
   }
 
-  async getUsers(): Promise<any> {
+  async getUsers(): Promise<User[]> {
     const response = await httpAdapter
       .withAuthorization()
       .get('/users')
@@ -55,7 +55,7 @@ export default class UserGatewayHttp {
         }
       });
 
-    return response;    
+    return response.data.data;
   }
 
   async storeUser(params: object): Promise<any> {

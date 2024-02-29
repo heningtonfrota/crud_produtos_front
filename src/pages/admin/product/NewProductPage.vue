@@ -25,9 +25,16 @@
         <v-card-text>
           <v-text-field v-model="form.name" label="Nome" variant="outlined" />
           <v-text-field v-model="form.description" label="Descrição" variant="outlined" />
-          <v-text-field v-model="form.price" label="preço" variant="outlined" />
-          <v-text-field v-model="form.expiration_date" label="Data de Expiração" variant="outlined" />
-          <v-file-input v-model="form.image" accept="image/png, image/jpeg, image/bmp" label="Imagem" variant="outlined" :chips="false" append-inner-icon="mdi-file" />
+          <v-text-field v-model="form.price" label="Preço" variant="outlined" placeholder="Ex: 12.50 (decimal separado por ponto(.))"/>
+          <v-text-field v-model="form.expiration_date" label="Data de Expiração" variant="outlined" placeholder="Ex: 2025-01-25"/>
+          <v-file-input 
+            v-model="form.image" 
+            accept="image/png, image/jpeg, image/bmp" 
+            label="Imagem" 
+            variant="outlined" 
+            :chips="false" 
+            append-inner-icon="mdi-file" 
+          />
           <SelectCategoriesComponent v-model:category="form.category_id" />
         </v-card-text>
 
@@ -45,26 +52,15 @@
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required, helpers } from '@vuelidate/validators';
+import { required, numeric, helpers } from '@vuelidate/validators';
 import { useProductsStore } from '@/store/products';
+import { useDate } from 'vuetify';
 import Product from '@/entities/Product';
 import SelectCategoriesComponent from "@/components/SelectCategoriesComponent.vue";
-import { useDate } from 'vuetify';
 
 const dialog = ref(false);
-
 const store = useProductsStore();
-
-const form = ref({
-  id: '',
-  name: '',
-  description: '',
-  price: 0,
-  expiration_date: '',
-  image: null as null | File,
-  category_id: ''
-} as Product);
-
+const form = ref(new Product('', '', 0, '', null));
 const date = useDate();
 
 const rules = {
@@ -76,6 +72,7 @@ const rules = {
       required: helpers.withMessage('O campo descrição é obrigatorio.', required)
     },
     price: {
+      numeric: helpers.withMessage('O campo preço deve conter apenas numeros .', numeric),
       required: helpers.withMessage('O campo preço é obrigatorio.', required)
     },
     expiration_date: {
@@ -121,7 +118,16 @@ function salvar() {
 
   if (v$?.value.form.$invalid) return;  
 
-  store.store(form.value)
+  
+  const formData = new FormData();
+  formData.append('name', form.value.name);
+  formData.append('description', form.value.description);
+  formData.append('price', form.value.price);
+  formData.append('expiration_date', form.value.expiration_date);
+  formData.append('image', form.value.image[0]);
+  formData.append('category_id', form.value.category_id);  
+  
+  store.store(formData)
     .finally(() => {
       fecharDialog();
       resetForm();
