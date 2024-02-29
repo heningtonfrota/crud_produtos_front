@@ -72,7 +72,8 @@ import routers from '@/router';
 const drawerLeft = ref(false);
 const itemsLeft = ref([
   { text: 'Usuários', value: 'admin.users', icon: 'mdi-account-group' },
-  { text: 'Produtos', value: 'admin.product', icon: 'mdi-package-variant-closed' }
+  { text: 'Produtos', value: 'admin.product', icon: 'mdi-package-variant-closed' },
+  { text: 'Categorias', value: 'admin.category', icon: 'mdi-hexagon-multiple-outline' }
 ]);
 
 const drawerRigth = ref(false);

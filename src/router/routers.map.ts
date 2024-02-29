@@ -3,6 +3,7 @@ import DefaultTemplate from "@/layouts/DefaultTemplate.vue";
 
 import AuthPage from "@/pages/auth/AuthPage.vue";
 import ProductsPage from "@/pages/admin/product/ProductsPage.vue";
+import CategoriesPage from "@/pages/admin/category/CategoriesPage.vue";
 import UsersPage from "@/pages/admin/users/UsersPage.vue";
 
 export default [
@@ -30,6 +31,11 @@ export default [
         path: 'products',
         component: ProductsPage,
         name: 'admin.product',
+      },
+      {
+        path: 'categories',
+        component: CategoriesPage,
+        name: 'admin.category',
       },
     ]
   }
